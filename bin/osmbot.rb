@@ -3,6 +3,5 @@
 require "bundler/setup"
 require "osmbot"
 
-
-bot = Osmbot::Bot.new
+bot = Osmbot::Bot.new("irc.freenode.net", "icculus", ["#opensourcemusicians"])
 bot.start
