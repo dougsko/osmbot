@@ -7,15 +7,17 @@ module Osmbot
         listen_to :channel
 
         def listen(m)
-            urls = URI.extract(m.message, ["http", "https"]).grep(/youtube/)
+            urls = URI.extract(m.message, ["http", "https"]).grep(/youtube|youtu\.be/)
             titles = urls.map {|url| get_title(url)}.compact
-            m.reply("[YouTube] " + titles.join(", ")) unless titles.empty?
+            titles.each do |title|
+                m.reply("[YouTube] " + title)
+            end
         end
 
         def get_title(url)
             stdout, stderr, status = Open3.capture3("/usr/local/bin/youtube-dl", "--get-title", "--skip-download", url)
             if status.success?
-                return stdout.chomp
+                return stdout.split("\n").first
             end
             nil
         end
