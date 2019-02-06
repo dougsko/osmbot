@@ -2,6 +2,10 @@
 
 require "bundler/setup"
 require "osmbot"
+require 'daemons'
 
-bot = Osmbot::Bot.new("irc.freenode.net", "nomind", ARGV[0], ["#opensourcemusicians"])
+Daemons.daemonize
+bot = Osmbot::Bot.new("irc.freenode.net", "nomind", ARGV[0], ["#opensourcemusicians", "#dougsko"])
 bot.start
+
+
